@@ -1,0 +1,60 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>沉浸式 VR 導覽 — 首頁</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="src/button.css" />
+        <link rel="stylesheet" href="src/soundbar.css" />
+        <link rel="stylesheet" href="src/infowindow.css" />
+        <script type="module" src="src/slider.ts"></script>
+    </head>
+    <body>
+        <div id="progress-container">
+            <dialog open id="progress-dialog">
+                <p>
+                    <label for="progress-indicator">Loading scene...</label>
+                </p>
+                <progress max="100" id="progress-indicator"></progress>
+            </dialog>
+        </div>
+
+        <canvas id="canvas"></canvas>
+        <script type="module" src="/src/main.ts"></script>
+
+        <div class="gallery">
+            <div class="row">
+                <div class="column">
+                    <h2>Info</h2>
+                    <div class="desc">E306 [Department Library: Turing Study Room], provides students with an excellent reading environment and a rich collection of computer engineering books.
+                        <br/><br/>During the opening period, the department's faculty and students will be allowed to freely enter and use the facility.
+                        <br/><br/>In the future, simply visit the newly launched 'Seat Reservation System' to reserve reading seats in advance!</div>
+                </div>
+                <div class="column">
+                    <h2>Scene</h2>
+                    <ul>
+                        <li><button class="btn">Turing study room</button></li>
+                        <li><button class="btn">Poster Exhibition</button></li>
+                        <li><button class="btn">Art Exhibition</button></li>
+                    </ul>
+                    <h2>Setting</h2>
+                    <div class="range">
+                        <input type="range" min="0" max="100" value="50" id="range2" class="range-input" /> 
+                        <div class="value2">當前音量: <span class="value2" id="vol">50</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <img id="scroll" title="Scene 1" src="https://i.pinimg.com/originals/87/34/39/873439f6277ba1024951424651f953b6.jpg" />
+
+        <script>
+            $("#scroll").click(function() {
+                window.location.href = "/src/scene1/index.html";
+            });
+        </script>
+    </body>
+</html>

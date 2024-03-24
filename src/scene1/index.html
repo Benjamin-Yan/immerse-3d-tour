@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>gsplat.js - Camera Updates</title>
+        <link rel="stylesheet" href="../../style.css" />
+        <link rel="stylesheet" href="../button.css"/>
+    </head>
+    <body>
+        <div id="progress-container">
+            <dialog open id="progress-dialog">
+                <p>
+                    <label for="progress-indicator">Loading scene...</label>
+                </p>
+                <progress max="100" id="progress-indicator"></progress>
+            </dialog>
+        </div>
+
+        <canvas id="canvas" style="z-index: 1"></canvas>
+        <script type="module" src="../scene1.ts"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <img id="scroll" title="Home" src="https://i.pinimg.com/originals/87/34/39/873439f6277ba1024951424651f953b6.jpg" />
+        
+        <script>
+            $("#scroll").click(function() {
+                window.location.href = "../../index.html";
+            });
+        </script>
+    </body>
+</html>

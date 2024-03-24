@@ -1,0 +1,39 @@
+/* style the gallery */
+.gallery {
+    position:fixed;
+    left:170px;
+    right: 170px;
+    top:70px;
+    bottom: 70px;
+    backdrop-filter: blur(7px);
+    z-index: 2;
+    border-radius: 25px;
+    transition: all 0.3s;
+    border: 1px solid #ccc;
+}
+
+.gallery:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.desc {
+    padding: 20px;
+    padding-top: 10px;
+    text-align: left;
+    color: papayawhip;
+}
+
+/* 2 col */
+.column {
+    float: left;
+    width: 47%;
+    padding: 10px;
+    text-align: center;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
