@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+    base: './',
     build: {
         outDir: 'dist',
 
@@ -12,8 +13,6 @@ export default defineConfig({
                     new URL('src/scene1/index.html', import.meta.url)
                 ),
             },
-        },
-
-        base: '/immerse-vr-tour/',
+        }
     },
 });
