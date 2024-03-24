@@ -1,4 +1,4 @@
-import 'https://cdn.jsdelivr.net/npm/gsplat@latest';
+// import 'https://cdn.jsdelivr.net/npm/gsplat@latest';
 
 import * as SPLAT from "gsplat"
 
