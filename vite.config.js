@@ -13,5 +13,7 @@ export default defineConfig({
                 ),
             },
         },
+
+        base: '/immerse-vr-tour/',
     },
 });
