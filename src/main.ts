@@ -1,4 +1,6 @@
-import * as SPLAT from "https://cdn.jsdelivr.net/npm/gsplat@latest" // "gsplat";
+import 'https://cdn.jsdelivr.net/npm/gsplat@latest';
+
+import * as SPLAT from "gsplat"
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const progressDialog = document.getElementById("progress-dialog") as HTMLDialogElement;

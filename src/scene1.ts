@@ -1,6 +1,10 @@
 // import * as SPLAT from 'https://cdn.jsdelivr.net/npm/gsplat@latest';
-import * as SPLAT from "https://cdn.jsdelivr.net/npm/gsplat@latest";
-import {Quaternion} from "https://cdn.jsdelivr.net/npm/gsplat@latest" // "gsplat";
+// import 'https://cdn.jsdelivr.net/npm/gsplat/+esm';
+// import 'https://cdn.jsdelivr.net/npm/gsplat@1.2.0/dist/index.js';
+import 'https://cdn.jsdelivr.net/npm/gsplat@latest';
+
+import * as SPLAT from "gsplat";
+import {Quaternion} from "gsplat";
 
 const DEG2RAD = Math.PI / 180;
 
