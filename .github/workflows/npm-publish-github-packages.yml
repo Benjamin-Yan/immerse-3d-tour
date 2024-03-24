@@ -27,6 +27,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    env:
+      PROJECT_PATH: ../../../
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,6 +41,7 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+        working-directory: ${{ github.workspace }}/${{ env.PROJECT_PATH }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
