@@ -1,4 +1,4 @@
-/* Style the buttons */
+/* ///////////////////////////////// Start of button ///////////////////////////////// */
 .btn {
     border-radius: 15px;
     outline: none;
@@ -7,11 +7,11 @@
     background-color: #8ac3f2d0;
     cursor: pointer;
     margin-bottom: 5px;
-    -webkit-transition:all .4s ease;
-    -moz-transition:all .4s ease;
-    -ms-transition:all .4s ease;
-    -o-transition:all .4s ease;
-    transition:all .4s ease;
+    -webkit-transition: all .4s ease;
+    -moz-transition: all .4s ease;
+    -ms-transition: all .4s ease;
+    -o-transition: all .4s ease;
+    transition: all .4s ease;
 }
 
 .btn:hover {
@@ -23,27 +23,125 @@
     color: rgb(41, 101, 136);
 }
 
+/* ///////////////////////////////// End of button ///////////////////////////////// */
+
 /*for back to top button*/
 #scroll {
-    position:fixed;
+    position: fixed;
     border-radius: 30%;
-    right:10px;
-    bottom:10px;
-    width:70px;
-    height:70px;
-    opacity:.7;
+    right: 10px;
+    bottom: 10px;
+    object-fit: cover;
+    width: 70px;
+    height: 70px;
+    opacity: .7;
     z-index: 2;
-    transition:all .4s ease;
+    transition: all .4s ease;
 }
 
 #scroll:hover {
-    opacity:1;
-    cursor:pointer;
+    opacity: 1;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {
     #scroll {
-        width:50px;
-        height:50px;
+        width: 50px;
+        height: 50px;
     }
 }
+
+/* ///////////////////////////////// Start of menu ///////////////////////////////// */
+.menuicon {
+    height: 70px;
+    width: 70px;
+    background: #1A2838;
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    opacity: .6;
+    transition: .5s ease-in-out;
+    cursor: pointer;
+}
+
+.menuicon:hover {
+    opacity: 1;
+}
+
+.menuicon span {
+    position: absolute;
+    width: 50px;
+    height: 5px;
+    border-radius: 30px;
+    background: linear-gradient(to bottom left, #1C82FF, #1CD7FF);
+    transition: all .5s ease-in-out;
+}
+
+.menuicon span:nth-child(1) {
+    transform: translateY(-15px);
+}
+
+.menuicon span:nth-child(2) {
+    width: 40px;
+}
+
+.menuicon span:nth-child(3) {
+    transform: translateY(15px);
+    width: 27px;
+}
+
+.menuicon.active span:nth-child(2) {
+    scale: 0;
+}
+
+.menuicon.active span:nth-child(1) {
+    transform: rotate(-135deg);
+}
+
+.menuicon.active span:nth-child(3) {
+    width: 50px;
+    transform: translateY(0) rotate(315deg);
+}
+
+.menuicon.active~.menu-content {
+    right: 10px;
+}
+
+.menu-content {
+    position: absolute;
+    bottom: 80px;
+    right: -70px;
+    transition: all 0.5s ease-in-out;
+}
+
+.menu-content img {
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 30%;
+    object-fit: cover;
+    width: 70px;
+    height: 70px;
+    opacity: .7;
+    transition: all .4s ease;
+}
+
+.menu-content img:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+    .menu-content img, .menuicon {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* ///////////////////////////////// End of menu ///////////////////////////////// */
+

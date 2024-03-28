@@ -36,9 +36,9 @@
                 <div class="column">
                     <h2>Scene</h2>
                     <ul>
-                        <li><button class="btn">Turing study room</button></li>
-                        <li><button class="btn">Poster Exhibition</button></li>
-                        <li><button class="btn">Art Exhibition</button></li>
+                        <li><button class="btn" id="btn1">Turing study room</button></li>
+                        <li><button class="btn" id="btn2">Poster Exhibition</button></li>
+                        <li><button class="btn" id="btn3">Art Exhibition</button></li>
                     </ul>
                     <h2>Setting</h2>
                     <div class="range">
@@ -50,11 +50,17 @@
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <img id="scroll" title="Scene 1" src="https://i.pinimg.com/originals/87/34/39/873439f6277ba1024951424651f953b6.jpg" />
+        <!-- <img id="scroll" title="Scene 1" src="https://i.pinimg.com/originals/87/34/39/873439f6277ba1024951424651f953b6.jpg" /> -->
 
         <script>
-            $("#scroll").click(function() {
-                window.location.href = "src/scene1/index.html";
+            $("#btn1").click(function() {
+                window.location.href = "src/turing_study_room/index.html";
+            });
+            $("#btn2").click(function() {
+                window.location.href = "src/poster_exhibition/index.html";
+            });
+            $("#btn3").click(function() {
+                window.location.href = "src/arts_exhibition/index.html";
             });
         </script>
     </body>

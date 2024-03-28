@@ -7,6 +7,17 @@ html {
     font-family: 'Kiwi Maru', DFKai-sb, sans-serif;
 }
 
+h1 {
+    position:fixed;
+    left:15px;
+    top:15px;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: antiquewhite;
+    user-select: none;
+}
+
 h2 {
     color: white;
 }
@@ -59,5 +70,11 @@ progress::-webkit-progress-value {
 
 progress::-moz-progress-bar {
     background-color: #eee;
+}
+
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 1.25rem;
+    }
 }
 

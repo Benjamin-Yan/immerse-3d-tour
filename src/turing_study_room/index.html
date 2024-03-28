@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4295/4295414.png" type="image/x-icon" />
+        <title>圖靈書房 — 沉浸式 VR 導覽</title>
+        <link rel="stylesheet" href="../../style.css" />
+        <link rel="stylesheet" href="../button.css"/>
+    </head>
+    <body>
+        <div id="progress-container">
+            <dialog open id="progress-dialog">
+                <p>
+                    <label for="progress-indicator">Loading scene...</label>
+                </p>
+                <progress max="100" id="progress-indicator"></progress>
+            </dialog>
+        </div>
+
+        <h1>Turing Study Room</h1>
+
+        <canvas class="canvas" id="scene1" style="z-index: 1"></canvas>
+        <script type="module" src="../scene.ts"></script>
+
+        <!-- Start of the menu -->
+        <div class="menuicon" title="Open menu!">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu-content">
+            <img title="奇萊傳響海報展" src="https://www.ndhu.edu.tw/var/file/0/1000/img/1627/20240306_1_7.jpg" />
+            <img title="島鏈亞太國際藝術展" src="http://faculty.ndhu.edu.tw/~artsusr/2024arts/images/2024_poster.png" />
+            <img title="Home" src="https://i.pinimg.com/236x/0f/48/82/0f488257c7f27f206f66896f1b759e80.jpg" />
+        </div>
+        <script type="module" src="../element.js"></script>
+        <!-- End of the menu -->
+    </body>
+</html>
