@@ -8,9 +8,7 @@
         <title>沉浸式 VR 導覽 — 首頁</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="src/button.css" />
-        <link rel="stylesheet" href="src/soundbar.css" />
         <link rel="stylesheet" href="src/infowindow.css" />
-        <script type="module" src="src/slider.ts"></script>
     </head>
     <body>
         <div id="progress-container">
@@ -22,10 +20,10 @@
             </dialog>
         </div>
 
-        <canvas id="canvas"></canvas>
-        <script type="module" src="/src/main.ts"></script>
+        <canvas class="canvas"></canvas>
+        <script type="module" src="src/scene.ts"></script>
 
-        <div class="gallery">
+        <div class="infowin">
             <div class="row">
                 <div class="column">
                     <h2>Info</h2>
@@ -40,28 +38,11 @@
                         <li><button class="btn" id="btn2">Poster Exhibition</button></li>
                         <li><button class="btn" id="btn3">Art Exhibition</button></li>
                     </ul>
-                    <h2>Setting</h2>
-                    <div class="range">
-                        <input type="range" min="0" max="100" value="50" id="range2" class="range-input" /> 
-                        <div class="value2">當前音量: <span class="value2" id="vol">50</span></div>
-                    </div>
                 </div>
             </div>
         </div>
+        
+        <script type="module" src="src/element.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <!-- <img id="scroll" title="Scene 1" src="https://i.pinimg.com/originals/87/34/39/873439f6277ba1024951424651f953b6.jpg" /> -->
-
-        <script>
-            $("#btn1").click(function() {
-                window.location.href = "src/turing_study_room/index.html";
-            });
-            $("#btn2").click(function() {
-                window.location.href = "src/poster_exhibition/index.html";
-            });
-            $("#btn3").click(function() {
-                window.location.href = "src/arts_exhibition/index.html";
-            });
-        </script>
     </body>
 </html>

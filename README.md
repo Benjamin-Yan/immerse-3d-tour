@@ -3,6 +3,7 @@
 
 ### File url
 Default: `https://huggingface.co/datasets/dylanebert/3dgs/resolve/main/bonsai/bonsai-7k.splat`
+
 Scenes (Can use both `.ply` or `.splat`)
 1. Turing study room: `https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Turing_study_room_03_02_3_30000.splat`
 2. Poster exhibition: `https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Poster_exhibition_C103_03_08_2_1_50000.splat`
@@ -21,4 +22,9 @@ Scenes (Can use both `.ply` or `.splat`)
 - convert ply to splat: [jsfiddle](https://jsfiddle.net/2sq3pvdt/1/)
 
 ### Todo
+- [ ] 移動搖桿
+- [ ] 鎖高度
+- [ ] 鎖視角
+- [ ] 相機視角切換
+- [ ] file 整理
 
