@@ -43,9 +43,9 @@ class AxisProgram extends SPLAT.ShaderProgram {
         const yVertices = new Float32Array([0, -50, 0, 0, 50, 0]);
         const zVertices = new Float32Array([0, 0, -50, 0, 0, 50]);
 
-        const xColor = new Float32Array([1, 0, 0, 0.5]);
-        const yColor = new Float32Array([0, 1, 0, 0.5]);
-        const zColor = new Float32Array([0, 0.5, 1, 0.5]);
+        const xColor = new Float32Array([1, 0, 0, 1]);
+        const yColor = new Float32Array([0, 1, 0, 1]);
+        const zColor = new Float32Array([0, 0.5, 1, 1]);
 
         this._initialize = () => {
             vertexBuffer = gl.createBuffer() as WebGLBuffer;

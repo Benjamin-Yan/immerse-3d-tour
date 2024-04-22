@@ -1,3 +1,4 @@
+const infoicon = document.getElementById("infoicon")
 const menuicon = document.querySelector('.menuicon');
 const links = document.querySelectorAll(".menu-content img");
 const list = document.querySelectorAll(".column li button");
@@ -14,6 +15,24 @@ toLink.set("btn1", "turing_study_room");
 toLink.set("btn2", "poster_exhibition");
 toLink.set("btn3", "arts_exhibition");
 
+///////////////////////////////// Start of info icon /////////////////////////////////
+if (infoicon) {
+    infoicon.addEventListener('click', () => {
+        infoicon.classList.toggle('active');
+        infoicon.classList.add("hidden");
+        setTimeout(function() {
+            if (infoicon.classList.contains('active')) {
+                infoicon.textContent = "X";
+            } else {
+                infoicon.textContent = "i";
+            }
+            infoicon.classList.remove("hidden");
+        }, 500);
+    })
+}
+///////////////////////////////// End of info icon /////////////////////////////////
+
+///////////////////////////////// Start of menu icon /////////////////////////////////
 if (menuicon) {
     menuicon.addEventListener('click', () => {
         menuicon.classList.toggle('active');
@@ -30,6 +49,9 @@ links.forEach(function(img) {
     });
 });
 
+///////////////////////////////// End of menu icon /////////////////////////////////
+
+///////////////////////////////// Start of scene selection button /////////////////////////////////
 list.forEach(function(li) {
     li.addEventListener("click", function() {
         let id = li.getAttribute("id");
@@ -38,4 +60,6 @@ list.forEach(function(li) {
         if (href) {window.location.href = "src/" + href + "/index.html";}
     });
 });
+
+///////////////////////////////// End of scene selection button /////////////////////////////////
 

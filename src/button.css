@@ -23,6 +23,40 @@
 
 /* ///////////////////////////////// End of button ///////////////////////////////// */
 
+/* ///////////////////////////////// Start of info icon ///////////////////////////////// */
+#infoicon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    padding: 0px 3px 3px 3px;
+    text-align: center;
+    color: antiquewhite;
+    font-size: 22px;
+    font-family: sans-serif;
+    font-weight: bold;
+    border-radius: 50%;
+    border: solid 3px antiquewhite;
+    opacity: .6;
+    cursor: pointer;
+    transition: opacity .5s ease-in-out, color .5s ease-in-out;
+}
+
+#infoicon:hover {
+    opacity: 1;
+}
+
+#infoicon.hidden {
+    color: rgba(0, 0, 0, 0);
+}
+
+#infoicon.active~.infowin {
+    visibility: visible;
+}
+
+/* ///////////////////////////////// End of info icon ///////////////////////////////// */
+
 /* ///////////////////////////////// Start of menu ///////////////////////////////// */
 .menuicon {
     height: 70px;
@@ -35,8 +69,8 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    right: 10px;
     bottom: 10px;
+    right: 10px;
     opacity: .6;
     transition: .5s ease-in-out;
     cursor: pointer;
@@ -138,4 +172,42 @@
 }
 
 /* ///////////////////////////////// End of menu ///////////////////////////////// */
+
+/* ///////////////////////////////// Start of view ///////////////////////////////// */
+.view {
+    position: fixed;
+    left: 50%;
+    bottom: 10px;
+    display: flex;
+    color: white;
+    background: #3b628fc2;
+    transform: translateX(-50%);
+    font-size: 28px;
+    border-radius: 5rem;
+}
+
+#lview, #rview {
+    opacity: .7;
+    flex-grow: 1;
+    padding: 10px;
+    align-self: center;
+    cursor: pointer;
+    user-select: none;
+}
+.view span:nth-child(2) {
+    flex-grow: 2;
+    align-self: center;
+}
+
+#lview:hover, #rview:hover {
+    opacity: 1;
+}
+
+@media screen and (max-width: 600px) {
+    .view  {
+        font-size: 20px;
+    }
+}
+
+/* ///////////////////////////////// End of view ///////////////////////////////// */
 

@@ -4,9 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4295/4295414.png" type="image/x-icon" />
-        <title>奇萊傳響海報展 — 沉浸式 VR 導覽</title>
+        <title>奇萊傳響海報展 — 沉浸式 3D 導覽</title>
         <link rel="stylesheet" href="../../style.css" />
         <link rel="stylesheet" href="../button.css"/>
+        <link rel="stylesheet" href="../infowindow.css"/>
     </head>
     <body>
         <div id="progress-container">
@@ -23,6 +24,32 @@
         <canvas class="canvas" id="scene2"></canvas>
         <script type="module" src="../scene.ts"></script>
 
+        <!-- Start of info window -->
+        <span id="infoicon" title="Open information!">i</span>
+
+        <div class="infowin">
+            <div class="row">
+                <div class="column">
+                    <h2>Info</h2>
+                    <div class="desc">「奇萊傳響－從《東華人文學報》到《人社東華》電子報」的系列活動，側重在《東華人文學報》的編輯分享，展覽現場則有多年來的《東華人文學報》、《人社東華》裡書評書介的圖書、各專欄的看版簡介等。</div>
+                </div>
+                <div class="column">
+                    <h2>Keyboard shortcuts</h2>
+                    <div class="desc">(暫放待改)movement (arrow keys)
+                        <br/>- left/right arrow keys to strafe side to side
+                        <br/>- up/down arrow keys to move forward/back
+                        <br/>- space to jump
+                        <br/><br/>touch (mobile)
+                        <br/>- one finger to orbit</div>
+                </div>
+                <div class="column">
+                    <h2>Location</h2>
+                    <div class="desc">東華大學人社二館 C103 院特色空間</div>
+                </div>
+            </div>
+        </div>
+        <!-- End of info window -->
+        
         <!-- Start of the menu -->
         <div class="menuicon" title="Open menu!">
             <span></span>

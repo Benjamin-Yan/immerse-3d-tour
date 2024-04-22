@@ -4,9 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4295/4295414.png" type="image/x-icon" />
-        <title>2024島鏈亞太國際藝術展 — 沉浸式 VR 導覽</title>
+        <title>2024島鏈亞太國際藝術展 — 沉浸式 3D 導覽</title>
         <link rel="stylesheet" href="../../style.css" />
         <link rel="stylesheet" href="../button.css"/>
+        <link rel="stylesheet" href="../infowindow.css"/>
     </head>
     <body>
         <div id="progress-container">
@@ -22,6 +23,40 @@
 
         <canvas class="canvas" id="scene3"></canvas>
         <script type="module" src="../scene.ts"></script>
+
+        <!-- Start of info window -->
+        <span id="infoicon" title="Open information!">i</span>
+
+        <div class="infowin">
+            <div class="row">
+                <div class="column">
+                    <h2>Info</h2>
+                    <div class="desc">集結美國、日本、韓國、新加坡、馬來西亞眾多學者專家、藝術家、公部門、業界人士和學生，透過學術發表、專題論壇、工作坊、藝術展覽與表演等活動，促進不同領域的交流與合作，探討亞太地區藝術與人文、社會經濟發展等議題搭建一個交流的平臺。</div>
+                </div>
+                <div class="column">
+                    <h2>Keyboard shortcuts</h2>
+                    <div class="desc">(暫放待改)movement (arrow keys)
+                        <br/>- left/right arrow keys to strafe side to side
+                        <br/>- up/down arrow keys to move forward/back
+                        <br/>- space to jump
+                        <br/><br/>touch (mobile)
+                        <br/>- one finger to orbit</div>
+                </div>
+                <div class="column">
+                    <h2>Location</h2>
+                    <div class="desc dcen">東華大學藝術學院大樓 A103 展覽廳</div>
+                </div>
+            </div>
+        </div>
+        <!-- End of info window -->
+
+        <!-- Start of the view -->
+        <div class="view">
+            <span id="lview">◀</span>
+            <span>Position i</span>
+            <span id="rview">▶</span>
+        </div>
+        <!-- End of the view -->
 
         <!-- Start of the menu -->
         <div class="menuicon" title="Open menu!">
