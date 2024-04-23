@@ -30,6 +30,10 @@ Scenes (Can use both `.ply` or `.splat`)
 - [ ] 鎖場景邊界防止跑入虛空
 - [ ] 相機視角切換 (功能完成, 把場景補齊即可)
 - [ ] 主畫面製作(讓使用者選擇觀看那個場景)
-- [ ] 彈出物品特寫及文字說明框 (no time)
-- [ ] 已知 bug (no time) (切換場景的按鈕在手機板型跑版問題)
+- [ ] Position and movement remain disabled until the scene has finished loading.
 
+#### No time
+- [ ] 彈出物品特寫及文字說明框
+- [ ] 已知 bug (切換場景的按鈕在手機板型跑版問題)
+
+`http://localhost:5173/src/arts_exhibition/index.html`

@@ -211,3 +211,35 @@
 
 /* ///////////////////////////////// End of view ///////////////////////////////// */
 
+/* ///////////////////////////////// Start of steering wheel ///////////////////////////////// */
+#stewhe {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    height: 100px;
+    width: 100px;
+    clip-path: circle(50% at 50% 50%);
+}
+
+#stewhe span:nth-child(n) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: antiquewhite;
+    opacity: .6;
+    cursor: pointer;
+}
+
+#stewhe span:nth-child(n):hover {
+    opacity: 1;
+}
+
+#stewhe span:nth-child(1) { clip-path: polygon(0% 0%, 0% 100%, 50% 50%); }     /*左*/
+#stewhe span:nth-child(2) { clip-path: polygon(0% 0%, 100% 0%, 50% 50%); }     /*上*/
+#stewhe span:nth-child(3) { clip-path: polygon(100% 0%, 100% 100%, 50% 50%); } /*右*/
+#stewhe span:nth-child(4) { clip-path: polygon(100% 100%, 0% 100%, 50% 50%); } /*下*/
+
+/* ///////////////////////////////// End of steering wheel ///////////////////////////////// */
+
