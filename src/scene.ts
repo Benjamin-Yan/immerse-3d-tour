@@ -20,12 +20,18 @@ const scene = new SPLAT.Scene();
 const camera = new SPLAT.Camera();
 const controls = new SPLAT.OrbitControls(camera, canvas);
 
-const url0 = "https://huggingface.co/datasets/dylanebert/3dgs/resolve/main/bonsai/bonsai-7k.splat";
-const url1 = "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Turing_study_room_03_02_3_30000.splat";
-const url2 = "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Poster_exhibition_C103_03_08_2_1_50000.splat";
-const url3 = "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Arts_exhibition_A103_03_21_6_local_1_50000.splat";
-// const url4 = "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/113_exhibition_C103_03_28_3_30000.splat";
+//////////////////// Initial scene by scene id ////////////////////
+const splaturl: string[] = [
+    "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Library_03_09_1.splat",
+    "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Turing_study_room_03_02_3_30000.splat",
+    "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Poster_exhibition_C103_03_08_2_1_50000.splat",
+    "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Arts_exhibition_A103_03_21_6_local_1_50000.splat",
+    "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/113_exhibition_C103_03_28_3_30000.splat"
+]; // https://huggingface.co/datasets/dylanebert/3dgs/resolve/main/bonsai/bonsai-7k.splat
 
+let url = splaturl[+canvas.id.slice(-1)];
+
+////////////////////  ////////////////////
 let countArt = -1;
 let isFirstArt:boolean = true;
 
@@ -63,11 +69,6 @@ let camview = camviewArt;
 // else if (canvas.id === "scene2") camview = camviewPoster;
 // else if (canvas.id === "scene3") camview = camviewArt;
 
-//////////////////// Initial scene by scene id. ////////////////////
-let url = url0;
-if (canvas.id === "scene1") url = url1;
-else if (canvas.id === "scene2") url = url2;
-else if (canvas.id === "scene3") url = url3;
 
 //////////////////// Define rotation quaternion ////////////////////
 let rotidx = 0;
@@ -90,11 +91,12 @@ const rotqua: [number, number, number, number][] = [ //rotate [30, 60, 90, 120, 
     // [ 0, 0, 0, 1 ]
 ]
 
-//////////////////// Start main function ////////////////////
+//////////////////// Start the main function ////////////////////
 async function main() {
     await SPLAT.Loader.LoadAsync(url, scene, (progress) => (progressIndicator.value = progress * 100));
     progressDialog.close();
 
+    //////////////////// Define all functions ////////////////////
     const secneInitial = () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.backgroundColor = new SPLAT.Color32(64, 64, 64, 255);
@@ -102,26 +104,29 @@ async function main() {
         // renderer.addProgram(new AxisProgram(renderer, []));
         // renderer.addProgram(new GridProgram(renderer, []));
 
-        scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * -167);
-        scene.objects[0].applyRotation();
-        scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -4);
-        scene.objects[0].applyRotation();
-        
-        camera.position = new SPLAT.Vector3(-1.0, -0.25, -4.0);
-        camera.rotation = new SPLAT.Quaternion();
-
-        
         // Add adjustment to scenes
-        // if (canvas.id === "scene1") {}
-        // else if (canvas.id === "scene3") { // art exhibition
-        //     scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * -167);
-        //     scene.objects[0].applyRotation();
-        //     scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -4);
-        //     scene.objects[0].applyRotation();
-        //     // initial point (in front of the door)
-        //     camera.position = new SPLAT.Vector3(-1.0, -0.25, -4.0);
-        //     camera.rotation = new SPLAT.Quaternion();
-        // }
+        if (canvas.id === "scene0") { // library
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -2);
+            scene.objects[0].applyRotation();
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * -9);
+            scene.objects[0].applyRotation();
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 0, 1), DEG2RAD * 8);
+            scene.objects[0].applyRotation();
+            
+            camera.position = new SPLAT.Vector3(0.0, -0.25, -4.8980897);
+            camera.rotation = new SPLAT.Quaternion();
+        } else if (canvas.id === "scene3") { // art exhibition
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * -167);
+            scene.objects[0].applyRotation();
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -4);
+            scene.objects[0].applyRotation();
+            // initial point (in front of the door)
+            camera.position = new SPLAT.Vector3(-1.0, -0.25, -4.0);
+            camera.rotation = new SPLAT.Quaternion();
+        } else {
+            camera.position = new SPLAT.Vector3();
+            camera.rotation = new SPLAT.Quaternion();
+        }
     };
 
     const handleResize = () => {
@@ -136,34 +141,34 @@ async function main() {
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "a") {goLeft();}
+        if (event.key === "d") {goRight();}
+        if (event.key === "w") {goForward();}
+        if (event.key === "s") {goBackward();}
         // move (always head to z-positive)
-        let translation = new SPLAT.Vector3();
-        if (event.key === "a") {
-            translation = translation.add(new SPLAT.Vector3(-1, 0, 0));
-        }
-        if (event.key === "d") {
-            translation = translation.add(new SPLAT.Vector3(1, 0, 0));
-        }
-        if (event.key === "w") {
-            translation = translation.add(new SPLAT.Vector3(0, 0, 1));
-        }
-        if (event.key === "s") {
-            translation = translation.add(new SPLAT.Vector3(0, 0, -1));
-        }
-        if (event.key === "q") { // decrease the height
-            translation = translation.add(new SPLAT.Vector3(0, 1, 0));
-        }
-        if (event.key === "e") {
-            translation = translation.add(new SPLAT.Vector3(0, -1, 0));
-        }
-        camera.position = camera.position.add(translation);
+        // let translation = new SPLAT.Vector3();
+        // if (event.key === "a") {
+        //     translation = translation.add(new SPLAT.Vector3(-1, 0, 0));
+        // }
+        // if (event.key === "d") {
+        //     translation = translation.add(new SPLAT.Vector3(1, 0, 0));
+        // }
+        // if (event.key === "w") {
+        //     translation = translation.add(new SPLAT.Vector3(0, 0, 1));
+        // }
+        // if (event.key === "s") {
+        //     translation = translation.add(new SPLAT.Vector3(0, 0, -1));
+        // }
+        // if (event.key === "q") { // decrease the height
+        //     translation = translation.add(new SPLAT.Vector3(0, 1, 0));
+        // }
+        // if (event.key === "e") {
+        //     translation = translation.add(new SPLAT.Vector3(0, -1, 0));
+        // }
+        // camera.position = camera.position.add(translation);
 
         // move (don't care what direction is)
-        if (event.key === "g") {
-            camera.position = camera.position.add(camera.forward); //forward
-        } if (event.key === "b") {
-            camera.position = camera.position.subtract(camera.forward); //backward
-        } if (event.key === "v") {
+        if (event.key === "v") {
             // camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068)); //move left
             // camera.position = camera.position.add(camera.forward);
             // camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, 0.7071068, 0, 0.7071068));
@@ -190,10 +195,6 @@ async function main() {
             camera.position = new SPLAT.Vector3(newx, -0.25, newz);
 
             // console.log(camera.position);
-        } if (event.key === "n") {
-            camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, 0.7071068, 0, 0.7071068)); //move right
-            camera.position = camera.position.add(camera.forward);
-            camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068));
         } if (event.key === "f") {
             camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, -1, 0), DEG2RAD * 90); //turn left
         } if (event.key === "h") {
@@ -215,6 +216,8 @@ async function main() {
             rotidx += 1;
             rotidx %= rotqua.length;
             // console.log(camera.rotation.w.toFixed(5));
+
+            // console.log(camera.position);
         }
 
         // Reset
@@ -225,30 +228,29 @@ async function main() {
         camera.position = new SPLAT.Vector3(camera.position.x, -0.25, camera.position.z);
     };
 
-    //////////////////////////////////////// Go a step to four direction ////////////////////////////////////////
-    //////////////////// Go left ////////////////////
-    direpen.children[0].addEventListener("click", function() {
+    //////////////////// Go in four directions ////////////////////
+    const goLeft = () => {
         camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068));
         camera.position = camera.position.add(camera.forward);
         camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, 0.7071068, 0, 0.7071068));
-    });
-    //////////////////// Go forward ////////////////////
-    direpen.children[1].addEventListener("click", function() {
-        camera.position = camera.position.add(camera.forward);
-    });
-    //////////////////// Go right ////////////////////
-    direpen.children[2].addEventListener("click", function() {
-        camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, 0.7071068, 0, 0.7071068));
-        camera.position = camera.position.add(camera.forward);
-        camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068));
-    });
-    //////////////////// Go backward ////////////////////
-    direpen.children[3].addEventListener("click", function() {
-        camera.position = camera.position.subtract(camera.forward);
-    });
+    };
 
-    //////////////////// Go to left camera view. ////////////////////
-    lviewBut.addEventListener("click", function() {
+    const goForward = () => {
+        camera.position = camera.position.add(camera.forward);
+    };
+
+    const goRight = () => {
+        camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, 0.7071068, 0, 0.7071068));
+        camera.position = camera.position.add(camera.forward);
+        camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068));
+    };
+
+    const goBackward = () => {
+        camera.position = camera.position.subtract(camera.forward);
+    };
+
+    //////////////////// Go to the left or right camera view ////////////////////
+    const leftView = () => {
         if (countArt === -1 && isFirstArt) { // in initial position
             countArt = camview.length-1; //countArt = 17; //18
             isFirstArt = false;
@@ -265,10 +267,9 @@ async function main() {
         if (camview[countArt][4] !== 0) {
             camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[countArt][4]);
         }
-    });
+    };
 
-    //////////////////// Go to right camera view. ////////////////////
-    rviewBut.addEventListener("click", function() {
+    const rightView = () => {
         countArt += 1;
 
         let tmpidx = (countArt === camview.length-1) ? 1 : countArt+2;
@@ -279,11 +280,22 @@ async function main() {
             countArt = -1;
         } else if (camview[countArt][3] === 1) {camera.rotation = new SPLAT.Quaternion();}
         else if (camview[countArt][3] !== 0) {camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[countArt][3]);}
-    });
+    };
 
+    //////////////////// Assign all functions to each element ////////////////////
     secneInitial();
     window.addEventListener("resize", handleResize);
     window.addEventListener("keydown", onKeyDown);
+
+    if (canvas.id !== "scene0") {
+        direpen.children[0].addEventListener("click", goLeft);
+        direpen.children[1].addEventListener("click", goForward);
+        direpen.children[2].addEventListener("click", goRight);
+        direpen.children[3].addEventListener("click", goBackward);
+
+        lviewBut.addEventListener("click", leftView);
+        rviewBut.addEventListener("click", rightView);
+    }
 
     requestAnimationFrame(frame);
 }

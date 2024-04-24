@@ -13,11 +13,13 @@ h1 {
     font-weight: 700;
     margin: 0;
     color: antiquewhite;
+    text-shadow: 0 0 0.2em #F87; /* make it more clear*/
     user-select: none;
 }
 
 h2 {
     color: white;
+    text-shadow: 0 0 0.2em black; /* make it more clear*/
 }
 
 ul {
