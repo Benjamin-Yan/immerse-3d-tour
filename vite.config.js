@@ -18,6 +18,9 @@ export default defineConfig({
                 accordion3: fileURLToPath(
                     new URL('src/arts_exhibition/index.html', import.meta.url)
                 ),
+                accordion4: fileURLToPath(
+                    new URL('src/113_exhibition/index.html', import.meta.url)
+                ),
             },
         }
     },

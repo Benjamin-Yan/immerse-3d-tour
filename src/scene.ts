@@ -93,13 +93,17 @@ const rotqua: [number, number, number, number][] = [ //rotate [30, 60, 90, 120, 
 
 //////////////////// Start the main function ////////////////////
 async function main() {
-    direpen.style.setProperty("pointer-events", "none");
-    lviewBut.style.setProperty("pointer-events", "none");
-    rviewBut.style.setProperty("pointer-events", "none");
+    if (canvas.id !== "scene0") { // Remain disabled until the scene has finished loading.
+        direpen.style.setProperty("pointer-events", "none");
+        lviewBut.style.setProperty("pointer-events", "none");
+        rviewBut.style.setProperty("pointer-events", "none");
+    }
     await SPLAT.Loader.LoadAsync(url, scene, (progress) => (progressIndicator.value = progress * 100));
-    direpen.style.removeProperty("pointer-events");
-    lviewBut.style.removeProperty("pointer-events");
-    rviewBut.style.removeProperty("pointer-events");
+    if (canvas.id !== "scene0") {
+        direpen.style.removeProperty("pointer-events");
+        lviewBut.style.removeProperty("pointer-events");
+        rviewBut.style.removeProperty("pointer-events");
+    }
     progressDialog.close();
 
     //////////////////// Define all functions ////////////////////

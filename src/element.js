@@ -9,11 +9,13 @@ const toLink = new Map();
 toLink.set("圖靈書房", "../turing_study_room/index.html");
 toLink.set("奇萊傳響海報展", "../poster_exhibition/index.html");
 toLink.set("島鏈亞太國際藝術展", "../arts_exhibition/index.html");
+toLink.set("113級畢製", "../113_exhibition/index.html");
 toLink.set("Home", "../../index.html");
 // 2.id to link map
 toLink.set("btn1", "turing_study_room");
 toLink.set("btn2", "poster_exhibition");
 toLink.set("btn3", "arts_exhibition");
+toLink.set("btn4", "113_exhibition");
 
 ///////////////////////////////// Start of info icon /////////////////////////////////
 if (infoicon) {
