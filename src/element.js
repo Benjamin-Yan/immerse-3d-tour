@@ -34,8 +34,14 @@ if (infoicon) {
 
 ///////////////////////////////// Start of menu icon /////////////////////////////////
 if (menuicon) {
+    const menucontent = document.querySelector('.menu-content');
     menuicon.addEventListener('click', () => {
         menuicon.classList.toggle('active');
+        if (menuicon.classList.contains('active')) {
+            menucontent.setAttribute("style", "right: 0px;");
+        } else {
+            menucontent.setAttribute("style", "right: -80px;");
+        }
     })
 }
 
