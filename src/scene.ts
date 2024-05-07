@@ -15,6 +15,8 @@ const rviewBut = document.getElementById("rview") as HTMLSpanElement;
 
 const direpen = document.getElementById("stewhe") as HTMLDivElement;
 
+const infoicon = document.getElementById("infoicon") as HTMLDivElement;
+
 const renderer = new SPLAT.WebGLRenderer(canvas);
 const scene = new SPLAT.Scene();
 const camera = new SPLAT.Camera();
@@ -31,15 +33,14 @@ const splaturl: string[] = [
 
 let url = splaturl[+canvas.id.slice(-1)];
 
-////////////////////  ////////////////////
-let countArt = -1;
-let isFirstArt:boolean = true;
-
 //////////////////// Define camera view of specific position. ////////////////////
 /* 
  - [Position(x, y, z), Rotation(counterclockwise, clockwise)]
  - `1` for original rotation
 */
+let posidx = -1;
+let isFirstPos:boolean = true;
+
 // const camviewTuring: [number, number, number, number, number][] = [];
 // const camviewPoster: [number, number, number, number, number][] = [];
 const camviewArt: [number, number, number, number, number][] = [
@@ -62,34 +63,36 @@ const camviewArt: [number, number, number, number, number][] = [
     [-2.5936609, -0.0385681, -1.4874434, 90, 90],
     [-1, -0.25, -4, 1, 360]
 ];
-// const camview113: [number, number, number, number, number][] = [];
+// const camview113: [number, number, number, number, number][] = [
+//     [-1, -0.25, -4, 1, 360]
+// ];
 
 let camview = camviewArt;
 // if (canvas.id === "scene1") camview = camviewTuring;
 // else if (canvas.id === "scene2") camview = camviewPoster;
 // else if (canvas.id === "scene3") camview = camviewArt;
-
+// else if (canvas.id === "scene4") camview = camview113;
 
 //////////////////// Define rotation quaternion ////////////////////
-let rotidx = 0;
-const rotqua: [number, number, number, number][] = [ //rotate [30, 60, 90, 120, ...]
-    [ 0, 0.258819, 0, 0.9659258 ],
-    [ 0, 0.5, 0, 0.8660254 ],
-    [ 0, 0.7071068, 0, -0.7071068 ],
-    [ 0, 0.8660254, 0, -0.5 ],
-    [ 0, 0.9659258, 0, -0.258819 ],
-    [ 0, 1, 0, 0 ], //180
-    [ 0, 0.9659258, 0, 0.258819 ],
-    [ 0, 0.8660254, 0, 0.5 ],
-    [ 0, 0.7071068, 0, 0.7071068 ],
-    [ 0, 0.5, 0, -0.8660254 ],
-    [ 0, 0.258819, 0, -0.9659258 ],
-    [ 0, 0, 0, 1 ]
-    // [ 0, 1, 0, 0 ], //180
-    // [ 0, 0.7071068, 0, -0.7071068 ],
-    // [ 0, 0.7071068, 0, 0.7071068 ],
-    // [ 0, 0, 0, 1 ]
-]
+// let rotidx = 0;
+// const rotqua: [number, number, number, number][] = [ //rotate [30, 60, 90, 120, ...]
+//     [ 0, 0.258819, 0, 0.9659258 ],
+//     [ 0, 0.5, 0, 0.8660254 ],
+//     [ 0, 0.7071068, 0, -0.7071068 ],
+//     [ 0, 0.8660254, 0, -0.5 ],
+//     [ 0, 0.9659258, 0, -0.258819 ],
+//     [ 0, 1, 0, 0 ], //180
+//     [ 0, 0.9659258, 0, 0.258819 ],
+//     [ 0, 0.8660254, 0, 0.5 ],
+//     [ 0, 0.7071068, 0, 0.7071068 ],
+//     [ 0, 0.5, 0, -0.8660254 ],
+//     [ 0, 0.258819, 0, -0.9659258 ],
+//     [ 0, 0, 0, 1 ]
+//     // [ 0, 1, 0, 0 ], //180
+//     // [ 0, 0.7071068, 0, -0.7071068 ],
+//     // [ 0, 0.7071068, 0, 0.7071068 ],
+//     // [ 0, 0, 0, 1 ]
+// ];
 
 //////////////////// Start the main function ////////////////////
 async function main() {
@@ -97,6 +100,9 @@ async function main() {
         direpen.style.setProperty("pointer-events", "none");
         lviewBut.style.setProperty("pointer-events", "none");
         rviewBut.style.setProperty("pointer-events", "none");
+    }
+    if (canvas.id === "scene0") { // Show the scene menu first
+        infoicon.classList.toggle('active');
     }
     await SPLAT.Loader.LoadAsync(url, scene, (progress) => (progressIndicator.value = progress * 100));
     if (canvas.id !== "scene0") {
@@ -114,7 +120,7 @@ async function main() {
         // renderer.addProgram(new AxisProgram(renderer, []));
         // renderer.addProgram(new GridProgram(renderer, []));
 
-        // Add adjustment to scenes
+        // Add adjustment to scenes (x-posi: fowd-up, y-posi: left-fowd(clockwise),z-posi: right-down)
         if (canvas.id === "scene0") { // library
             scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -2);
             scene.objects[0].applyRotation();
@@ -125,16 +131,43 @@ async function main() {
             
             camera.position = new SPLAT.Vector3(0.0, -0.25, -4.8980897);
             camera.rotation = new SPLAT.Quaternion();
-        } else if (canvas.id === "scene3") { // art exhibition
+        } else if (canvas.id === "scene1") { // turing
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -13);
+            scene.objects[0].applyRotation();
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 180);
+            scene.objects[0].applyRotation();
+            
+            camera.position = new SPLAT.Vector3(-0.002, -0.25, -5.5);
+            camera.rotation = new SPLAT.Quaternion();
+        } else if (canvas.id === "scene2") { // poster//////////////////////////////////
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -2);
+            scene.objects[0].applyRotation();
+            // scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 15);
+            // scene.objects[0].applyRotation();
+            // scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 0, 1), DEG2RAD * -2);
+            // scene.objects[0].applyRotation();
+            
+            camera.position = new SPLAT.Vector3(-1.58, 0.0, -5.54);
+            // camera.rotation = new SPLAT.Quaternion();
+            camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, -1, 0), DEG2RAD * 90);
+        } 
+        else if (canvas.id === "scene3") { // art exhibition
             scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * -167);
             scene.objects[0].applyRotation();
             scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -4);
             scene.objects[0].applyRotation();
-            // initial point (in front of the door)
+            
             camera.position = new SPLAT.Vector3(-1.0, -0.25, -4.0);
             camera.rotation = new SPLAT.Quaternion();
-        } else {
-            camera.position = new SPLAT.Vector3();
+        } else if (canvas.id === "scene4") { // 113
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -2);
+            scene.objects[0].applyRotation();
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 15);
+            scene.objects[0].applyRotation();
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 0, 1), DEG2RAD * -2);
+            scene.objects[0].applyRotation();
+            
+            camera.position = new SPLAT.Vector3(-1.58, 0.0, -5.54);
             camera.rotation = new SPLAT.Quaternion();
         }
     };
@@ -155,87 +188,68 @@ async function main() {
         if (event.key === "d") {goRight();}
         if (event.key === "w") {goForward();}
         if (event.key === "s") {goBackward();}
-        // move (always head to z-positive)
-        // let translation = new SPLAT.Vector3();
-        // if (event.key === "a") {
-        //     translation = translation.add(new SPLAT.Vector3(-1, 0, 0));
-        // }
-        // if (event.key === "d") {
-        //     translation = translation.add(new SPLAT.Vector3(1, 0, 0));
-        // }
-        // if (event.key === "w") {
-        //     translation = translation.add(new SPLAT.Vector3(0, 0, 1));
-        // }
-        // if (event.key === "s") {
-        //     translation = translation.add(new SPLAT.Vector3(0, 0, -1));
-        // }
-        // if (event.key === "q") { // decrease the height
-        //     translation = translation.add(new SPLAT.Vector3(0, 1, 0));
-        // }
-        // if (event.key === "e") {
-        //     translation = translation.add(new SPLAT.Vector3(0, -1, 0));
-        // }
-        // camera.position = camera.position.add(translation);
-
-        // move (don't care what direction is)
-        if (event.key === "v") {
-            // camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068)); //move left
-            // camera.position = camera.position.add(camera.forward);
-            // camera.rotation = camera.rotation.multiply(new SPLAT.Quaternion(0, 0.7071068, 0, 0.7071068));
-
-            // let xpln = camera.position.add(camera.forward).x;
-            // let zpln = camera.position.add(camera.forward).z;
-            // let newx = (sqrt2 * camera.position.x + (cos45-sqrt2) * xpln) / cos45;
-            // let newz = (sqrt2 * camera.position.z + (cos45-sqrt2) * zpln) / cos45;
-
-            let oldx = camera.position.x;
-            let oldz = camera.position.z;
-            let plnx = camera.position.add(camera.forward).x;
-            let plnz = camera.position.add(camera.forward).z;
-            let lenr = Math.sqrt(Math.pow(plnx - oldx, 2) + Math.pow(plnz - oldz, 2));
-            let vecABx = plnx - oldx;
-            let vecADx = plnx - oldx;
-            let lenAD = Math.sqrt(Math.pow(vecADx, 2));
-            let alph = Math.acos( (vecABx*vecADx) / lenr*lenAD ) / DEG2RAD;
-            let vecACx = lenr * ( (-1) * Math.sin(DEG2RAD * alph) ); // r*cos(α+θ)
-            let vecACz = lenr * ( Math.cos(DEG2RAD * alph) ); // r*sin(α+θ)
-            let newx = oldx + vecACx;
-            let newz = oldz + vecACz;
-
-            camera.position = new SPLAT.Vector3(newx, -0.25, newz);
-
-            // console.log(camera.position);
-        } if (event.key === "f") {
-            camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, -1, 0), DEG2RAD * 90); //turn left
-        } if (event.key === "h") {
-            camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 90); //turn right
-        } if (event.key === "t") {
-            // camera.rotation = new SPLAT.Quaternion();
-            // console.log(camera.rotation);
-            // let tmpro = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.258819, 0, 0.9659258).normalize()); // 30
-            // let tmpro = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068)); // 90
-            // camera.rotation = new SPLAT.Quaternion(0, tmpro.y, 0, tmpro.w);
-
-            // camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 180);
-            // camera.rotation = new SPLAT.Quaternion(0, 1, 0, 0);
-
-            // if(camera.rotation.toEuler().x < 10) {camera.rotation = new SPLAT.Quaternion(0.258819, camera.rotation.y, camera.rotation.z, camera.rotation.w);}
-            // else if(camera.rotation.toEuler().z < 10) {camera.rotation = new SPLAT.Quaternion(camera.rotation.x, camera.rotation.y, 0.258819, camera.rotation.w);}
-
-            camera.rotation = new SPLAT.Quaternion(rotqua[rotidx][0], rotqua[rotidx][1], rotqua[rotidx][2], rotqua[rotidx][3]);
-            rotidx += 1;
-            rotidx %= rotqua.length;
-            // console.log(camera.rotation.w.toFixed(5));
-
-            // console.log(camera.position);
-        }
-
+        
         // Reset
         if (event.key === " ") {
             camera.position = new SPLAT.Vector3(-1, -0.25, -4);
             camera.rotation = new SPLAT.Quaternion();
         }
-        camera.position = new SPLAT.Vector3(camera.position.x, -0.25, camera.position.z);
+
+        //////////////////// for debugging or testing////////////////////
+        // 1. go left or right 
+        // if (event.key === "b") {
+        //     let oldx = camera.position.x;
+        //     let oldz = camera.position.z;
+        //     let plnx = camera.position.add(camera.forward).x;
+        //     let plnz = camera.position.add(camera.forward).z;
+        //     let lenr = Math.sqrt(Math.pow(plnx - oldx, 2) + Math.pow(plnz - oldz, 2));
+        //     let vecABx = plnx - oldx;
+        //     let vecADx = plnx - oldx;
+        //     let lenAD = Math.sqrt(Math.pow(vecADx, 2));
+        //     let alph = Math.acos( (vecABx*vecADx) / lenr*lenAD ) / DEG2RAD;
+        //     let vecACx = lenr * ( (-1) * Math.sin(DEG2RAD * alph) ); // r*cos(α+θ)
+        //     let vecACz = lenr * ( Math.cos(DEG2RAD * alph) ); // r*sin(α+θ)
+        //     let newx = oldx + vecACx;
+        //     let newz = oldz + vecACz;
+
+        //     camera.position = new SPLAT.Vector3(newx, -0.25, newz);
+
+        //     // console.log(camera.position);
+        // }
+        // 2. turn eye to left or right
+        // if (event.key === "v") {
+        //     camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, -1, 0), DEG2RAD * 90); //turn left
+        // } if (event.key === "n") {
+        //     camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 90); //turn right
+        // }
+        // 3. turn 30度/次 
+        // if (event.key === "t") {
+        //     // camera.rotation = new SPLAT.Quaternion();
+        //     // console.log(camera.rotation);
+        //     // let tmpro = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.258819, 0, 0.9659258).normalize()); // 30
+        //     // let tmpro = camera.rotation.multiply(new SPLAT.Quaternion(0, -0.7071068, 0, 0.7071068)); // 90
+        //     // camera.rotation = new SPLAT.Quaternion(0, tmpro.y, 0, tmpro.w);
+
+        //     // camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 180);
+        //     // camera.rotation = new SPLAT.Quaternion(0, 1, 0, 0);
+
+        //     // if(camera.rotation.toEuler().x < 10) {camera.rotation = new SPLAT.Quaternion(0.258819, camera.rotation.y, camera.rotation.z, camera.rotation.w);}
+        //     // else if(camera.rotation.toEuler().z < 10) {camera.rotation = new SPLAT.Quaternion(camera.rotation.x, camera.rotation.y, 0.258819, camera.rotation.w);}
+
+        //     camera.rotation = new SPLAT.Quaternion(rotqua[rotidx][0], rotqua[rotidx][1], rotqua[rotidx][2], rotqua[rotidx][3]);
+        //     rotidx += 1;
+        //     rotidx %= rotqua.length;
+        //     // console.log(camera.rotation.w.toFixed(5));
+
+        //     // console.log(camera.position);
+        // }
+
+        // fix height after press any key
+        if (canvas.id === "scene2") {
+            camera.position = new SPLAT.Vector3(camera.position.x, 0.0, camera.position.z);    
+        } else {
+            camera.position = new SPLAT.Vector3(camera.position.x, -0.25, camera.position.z);
+        }
     };
 
     //////////////////// Go in four directions ////////////////////
@@ -259,37 +273,37 @@ async function main() {
         camera.position = camera.position.subtract(camera.forward);
     };
 
-    //////////////////// Go to the left or right camera view ////////////////////
+    //////////////////// Go to the left or right camera view of fixed position ////////////////////
     const leftView = () => {
-        if (countArt === -1 && isFirstArt) { // in initial position
-            countArt = camview.length-1; //countArt = 17; //18
-            isFirstArt = false;
+        if (posidx === -1 && isFirstPos) { // in initial position
+            posidx = camview.length-1; //posidx = 17; //18
+            isFirstPos = false;
         }
-        else if (countArt === 0) {
-            countArt = camview.length; //countArt = 18;
-            isFirstArt = true; // reset
+        else if (posidx === 0) {
+            posidx = camview.length; //posidx = 18;
+            isFirstPos = true; // reset
         }
-        countArt -= 1;
+        posidx -= 1;
 
-        let tmpidx = (countArt === camview.length-1) ? 1 : countArt+2;
+        let tmpidx = (posidx === camview.length-1) ? 1 : posidx+2;
         sviewtxt.textContent = "Position " + tmpidx;
-        camera.position = new SPLAT.Vector3(camview[countArt][0], camview[countArt][1], camview[countArt][2]);
-        if (camview[countArt][4] !== 0) {
-            camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[countArt][4]);
+        camera.position = new SPLAT.Vector3(camview[posidx][0], camview[posidx][1], camview[posidx][2]);
+        if (camview[posidx][4] !== 0) {
+            camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[posidx][4]);
         }
     };
 
     const rightView = () => {
-        countArt += 1;
+        posidx += 1;
 
-        let tmpidx = (countArt === camview.length-1) ? 1 : countArt+2;
+        let tmpidx = (posidx === camview.length-1) ? 1 : posidx+2;
         sviewtxt.textContent = "Position " + tmpidx;
-        camera.position = new SPLAT.Vector3(camview[countArt][0], camview[countArt][1], camview[countArt][2]);
-        if (countArt === camview.length-1) { //17) {
+        camera.position = new SPLAT.Vector3(camview[posidx][0], camview[posidx][1], camview[posidx][2]);
+        if (posidx === camview.length-1) { //17) {
             camera.rotation = new SPLAT.Quaternion();
-            countArt = -1;
-        } else if (camview[countArt][3] === 1) {camera.rotation = new SPLAT.Quaternion();}
-        else if (camview[countArt][3] !== 0) {camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[countArt][3]);}
+            posidx = -1;
+        } else if (camview[posidx][3] === 1) {camera.rotation = new SPLAT.Quaternion();}
+        else if (camview[posidx][3] !== 0) {camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[posidx][3]);}
     };
 
     //////////////////// Assign all functions to each element ////////////////////

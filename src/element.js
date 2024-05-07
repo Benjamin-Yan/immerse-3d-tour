@@ -1,4 +1,4 @@
-const infoicon = document.getElementById("infoicon")
+const infoicon = document.getElementById("infoicon");
 const menuicon = document.querySelector('.menuicon');
 const links = document.querySelectorAll(".menu-content img");
 const list = document.querySelectorAll(".column li button");
