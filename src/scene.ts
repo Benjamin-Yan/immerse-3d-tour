@@ -94,6 +94,9 @@ let camview = camviewArt;
 //     // [ 0, 0, 0, 1 ]
 // ];
 
+//////////////////// Record the initial position ////////////////////
+let inipos = new SPLAT.Vector3();
+
 //////////////////// Start the main function ////////////////////
 async function main() {
     if (canvas.id !== "scene0") { // Remain disabled until the scene has finished loading.
@@ -126,7 +129,7 @@ async function main() {
             scene.objects[0].applyRotation();
             scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * -9);
             scene.objects[0].applyRotation();
-            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 0, 1), DEG2RAD * 8);
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 0, 1), DEG2RAD * 9);
             scene.objects[0].applyRotation();
             
             camera.position = new SPLAT.Vector3(0.0, -0.25, -4.8980897);
@@ -139,19 +142,15 @@ async function main() {
             
             camera.position = new SPLAT.Vector3(-0.002, -0.25, -5.5);
             camera.rotation = new SPLAT.Quaternion();
-        } else if (canvas.id === "scene2") { // poster//////////////////////////////////
-            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -2);
+        } else if (canvas.id === "scene2") { // poster
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -4);
             scene.objects[0].applyRotation();
-            // scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 15);
-            // scene.objects[0].applyRotation();
-            // scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 0, 1), DEG2RAD * -2);
-            // scene.objects[0].applyRotation();
+            scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * 15);
+            scene.objects[0].applyRotation();
             
-            camera.position = new SPLAT.Vector3(-1.58, 0.0, -5.54);
-            // camera.rotation = new SPLAT.Quaternion();
-            camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, -1, 0), DEG2RAD * 90);
-        } 
-        else if (canvas.id === "scene3") { // art exhibition
+            camera.position = new SPLAT.Vector3(-1.0, -0.25, -5.5);
+            camera.rotation = new SPLAT.Quaternion();
+        } else if (canvas.id === "scene3") { // art exhibition
             scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * -167);
             scene.objects[0].applyRotation();
             scene.objects[0].rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(1, 0, 0), DEG2RAD * -4);
@@ -170,6 +169,7 @@ async function main() {
             camera.position = new SPLAT.Vector3(-1.58, 0.0, -5.54);
             camera.rotation = new SPLAT.Quaternion();
         }
+        inipos = camera.position;
     };
 
     const handleResize = () => {
@@ -191,11 +191,15 @@ async function main() {
         
         // Reset
         if (event.key === " ") {
-            camera.position = new SPLAT.Vector3(-1, -0.25, -4);
+            camera.position = inipos;
             camera.rotation = new SPLAT.Quaternion();
         }
 
         //////////////////// for debugging or testing////////////////////
+        // 0. show position
+        // if (event.key === 'p') {
+        //     console.log(camera.position);
+        // }
         // 1. go left or right 
         // if (event.key === "b") {
         //     let oldx = camera.position.x;
@@ -245,11 +249,7 @@ async function main() {
         // }
 
         // fix height after press any key
-        if (canvas.id === "scene2") {
-            camera.position = new SPLAT.Vector3(camera.position.x, 0.0, camera.position.z);    
-        } else {
-            camera.position = new SPLAT.Vector3(camera.position.x, -0.25, camera.position.z);
-        }
+        camera.position = new SPLAT.Vector3(camera.position.x, inipos.y, camera.position.z);
     };
 
     //////////////////// Go in four directions ////////////////////

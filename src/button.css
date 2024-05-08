@@ -121,7 +121,7 @@
     bottom: 80px;
     right: 10px;
     width: 70px;
-    height: 320px;
+    height: 320px; /* (70+10)*4 */
 }
 
 .menu-content {
@@ -170,8 +170,10 @@
         width: 40px;
     }
 
-    .menu-content {
+    .menu-content-outer {
         bottom: 60px;
+        width: 50px;
+        height: 240px; /* (50+10)*4 */
     }
 }
 
