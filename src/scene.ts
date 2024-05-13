@@ -1,7 +1,7 @@
 import * as SPLAT from "gsplat";
 import {Quaternion} from "gsplat";
-// import { AxisProgram } from "./AxisProgram";
-// import { GridProgram } from "./GridProgram";
+import { AxisProgram } from "./AxisProgram";
+import { GridProgram } from "./GridProgram";
 
 const DEG2RAD = Math.PI / 180; // pi/180 *theta = y (對應的弧度) -> 四元數中填上{角度*DEG2RAD}即可
 
@@ -29,7 +29,7 @@ const splaturl: string[] = [
     "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Poster_exhibition_C103_03_08_2_1_50000.splat",
     "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/Arts_exhibition_A103_03_21_6_local_1_50000.splat",
     "https://huggingface.co/datasets/sun-cake/3dGS-js-source/resolve/main/113_exhibition_C103_03_28_3_30000.splat"
-]; // https://huggingface.co/datasets/dylanebert/3dgs/resolve/main/bonsai/bonsai-7k.splat
+]; // https://huggingface.co/datasets/dylanebert/3dgs/resolve/main/bonsai/bonsai-7k.splat, Library_05_04_1_30000.splat
 
 let url = splaturl[+canvas.id.slice(-1)];
 
@@ -37,14 +37,36 @@ let url = splaturl[+canvas.id.slice(-1)];
 /* 
  - [Position(x, y, z), Rotation(counterclockwise, clockwise)]
  - `1` for original rotation
+ - `0` for don't change current direction
+ - rotation use `from axis angle`: absolute 的旋轉，所以寫 90 一定會是朝向初始位置的右側。
 */
 let posidx = -1;
 let isFirstPos:boolean = true;
 
-// const camviewTuring: [number, number, number, number, number][] = [];
-// const camviewPoster: [number, number, number, number, number][] = [];
+const camviewTuring: [number, number, number, number, number][] = [
+    [-2.6422373, -0.0385681, -3.9284603, 90, 90],
+    [1.0816124, -0.25, -4.4852240, 1, 360],
+    [1.0816124, -0.25, 4.8699587, 180, 180],
+    [1.0816124, -0.25, -0.9542135, 1, 0],
+    [0.3800690, -0.25, 1.0457503, 1, 0],
+    [-1.1190396, -0.25, 1.0457503, 1, 360],
+    [1.9658702, -0.25, 4.0782768, -90, 0],
+    [0.7610420, -0.25, -0.0008356, 0, 0],
+    [1.6628045, -0.0085681, -3.3584766, 0, -90],
+    [-1.4787547, -0.0385681, 0.2981167, 180, 0],
+    [-0.002, -0.25, 4.8203525, 0, 180],
+    [-0.002, -0.25, -5.5, 1, 360]
+];
+const camviewPoster: [number, number, number, number, number][] = [/////////////////////////////
+    [1.9699041, -0.0385681, -3.2842760, 180, 180],
+    [-1.0, -0.25, -5.5, 1, 360]
+];
+/////////////////////////////
+
+
+
 const camviewArt: [number, number, number, number, number][] = [
-    [1.9699041,-0.0385681, -3.2842760, 180, 180],
+    [1.9699041, -0.0385681, -3.2842760, 180, 180],
     [0.9182661, -0.0385681, -2.5258824, 90, 90],
     [1.5626212, -0.0385681, 0.5561651, 90, 0], // idk why cant 0
     [1.7296781, -0.0385681, 3.2851041, 0, 0],
@@ -68,9 +90,9 @@ const camviewArt: [number, number, number, number, number][] = [
 // ];
 
 let camview = camviewArt;
-// if (canvas.id === "scene1") camview = camviewTuring;
-// else if (canvas.id === "scene2") camview = camviewPoster;
-// else if (canvas.id === "scene3") camview = camviewArt;
+if (canvas.id === "scene1") camview = camviewTuring;
+else if (canvas.id === "scene2") camview = camviewPoster;
+else if (canvas.id === "scene3") camview = camviewArt;
 // else if (canvas.id === "scene4") camview = camview113;
 
 //////////////////// Define rotation quaternion ////////////////////
@@ -120,8 +142,8 @@ async function main() {
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.backgroundColor = new SPLAT.Color32(64, 64, 64, 255);
         // Add debug axis and grid
-        // renderer.addProgram(new AxisProgram(renderer, []));
-        // renderer.addProgram(new GridProgram(renderer, []));
+        renderer.addProgram(new AxisProgram(renderer, []));
+        renderer.addProgram(new GridProgram(renderer, []));
 
         // Add adjustment to scenes (x-posi: fowd-up, y-posi: left-fowd(clockwise),z-posi: right-down)
         if (canvas.id === "scene0") { // library
@@ -189,17 +211,22 @@ async function main() {
         if (event.key === "w") {goForward();}
         if (event.key === "s") {goBackward();}
         
-        // Reset
+        // Reset position and camera view
         if (event.key === " ") {
             camera.position = inipos;
             camera.rotation = new SPLAT.Quaternion();
+
+            posidx = -1;
+            isFirstPos = true;
+            leftView();
+            rightView();
         }
 
         //////////////////// for debugging or testing////////////////////
         // 0. show position
-        // if (event.key === 'p') {
-        //     console.log(camera.position);
-        // }
+        if (event.key === 'p') {
+            console.log(camera.position);
+        }
         // 1. go left or right 
         // if (event.key === "b") {
         //     let oldx = camera.position.x;
@@ -240,9 +267,9 @@ async function main() {
         //     // if(camera.rotation.toEuler().x < 10) {camera.rotation = new SPLAT.Quaternion(0.258819, camera.rotation.y, camera.rotation.z, camera.rotation.w);}
         //     // else if(camera.rotation.toEuler().z < 10) {camera.rotation = new SPLAT.Quaternion(camera.rotation.x, camera.rotation.y, 0.258819, camera.rotation.w);}
 
-        //     camera.rotation = new SPLAT.Quaternion(rotqua[rotidx][0], rotqua[rotidx][1], rotqua[rotidx][2], rotqua[rotidx][3]);
-        //     rotidx += 1;
-        //     rotidx %= rotqua.length;
+        //     // camera.rotation = new SPLAT.Quaternion(rotqua[rotidx][0], rotqua[rotidx][1], rotqua[rotidx][2], rotqua[rotidx][3]);
+        //     // rotidx += 1;
+        //     // rotidx %= rotqua.length;
         //     // console.log(camera.rotation.w.toFixed(5));
 
         //     // console.log(camera.position);
@@ -275,13 +302,13 @@ async function main() {
 
     //////////////////// Go to the left or right camera view of fixed position ////////////////////
     const leftView = () => {
-        if (posidx === -1 && isFirstPos) { // in initial position
-            posidx = camview.length-1; //posidx = 17; //18
+        if (posidx === -1 && isFirstPos) { // first show in initial position
+            posidx = camview.length-1;
             isFirstPos = false;
         }
-        else if (posidx === 0) {
-            posidx = camview.length; //posidx = 18;
-            isFirstPos = true; // reset
+        else if (posidx === 0) { // not first time in initial position
+            posidx = camview.length;
+            isFirstPos = true;
         }
         posidx -= 1;
 
@@ -299,11 +326,15 @@ async function main() {
         let tmpidx = (posidx === camview.length-1) ? 1 : posidx+2;
         sviewtxt.textContent = "Position " + tmpidx;
         camera.position = new SPLAT.Vector3(camview[posidx][0], camview[posidx][1], camview[posidx][2]);
-        if (posidx === camview.length-1) { //17) {
+        if (posidx === camview.length-1) { // not first time in initial position
             camera.rotation = new SPLAT.Quaternion();
             posidx = -1;
-        } else if (camview[posidx][3] === 1) {camera.rotation = new SPLAT.Quaternion();}
-        else if (camview[posidx][3] !== 0) {camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[posidx][3]);}
+            isFirstPos = true;
+        } else if (camview[posidx][3] === 1) {
+            camera.rotation = new SPLAT.Quaternion();
+        } else if (camview[posidx][3] !== 0) {
+            camera.rotation = Quaternion.FromAxisAngle(new SPLAT.Vector3(0, 1, 0), DEG2RAD * camview[posidx][3]);
+        }
     };
 
     //////////////////// Assign all functions to each element ////////////////////
